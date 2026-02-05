@@ -8,7 +8,6 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -25,7 +24,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { Edit2, Search, Package, Save } from "lucide-react";
+import { Edit2, Package, Save } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -53,7 +52,13 @@ export const ProductSection = () => {
   ]);
 
   const [searchTerm, setSearchTerm] = useState("");
-  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
+  const [editingProduct, setEditingProduct] = useState<{
+    id: string;
+    category: string;
+    name: string;
+    mrp: string;
+    sellingPrice: string;
+  } | null>(null);
 
   const categories = ["Sound Crackers", "Sparklers", "Rockets"];
 
@@ -148,7 +153,15 @@ export const ProductSection = () => {
                     <Button
                       size="sm"
                       variant="ghost"
-                      onClick={() => setEditingProduct(p)}
+                      onClick={() =>
+                        setEditingProduct({
+                          id: p.id,
+                          category: p.category,
+                          name: p.name,
+                          mrp: String(p.mrp),
+                          sellingPrice: String(p.sellingPrice),
+                        })
+                      }
                     >
                       <Edit2 className="h-4 w-4" />
                     </Button>
@@ -207,6 +220,7 @@ export const ProductSection = () => {
             type="number"
             placeholder="MRP"
             value={form.mrp}
+            onFocus={() => setForm({ ...form, mrp: "" })}
             onChange={(e) => setForm({ ...form, mrp: e.target.value })}
           />
 
@@ -214,6 +228,7 @@ export const ProductSection = () => {
             type="number"
             placeholder="Selling Price"
             value={form.sellingPrice}
+            onFocus={() => setForm({ ...form, sellingPrice: "" })}
             onChange={(e) => setForm({ ...form, sellingPrice: e.target.value })}
           />
 
@@ -239,32 +254,39 @@ export const ProductSection = () => {
               <Input
                 type="number"
                 value={editingProduct.mrp}
-                onChange={(e) =>
-                  setEditingProduct({
-                    ...editingProduct,
-                    mrp: Number(e.target.value),
-                  })
+                onFocus={() =>
+                  setEditingProduct({ ...editingProduct, mrp: "" })
                 }
-                placeholder="MRP"
+                onChange={(e) =>
+                  setEditingProduct({ ...editingProduct, mrp: e.target.value })
+                }
               />
 
               <Input
                 type="number"
                 value={editingProduct.sellingPrice}
+                onFocus={() =>
+                  setEditingProduct({ ...editingProduct, sellingPrice: "" })
+                }
                 onChange={(e) =>
                   setEditingProduct({
                     ...editingProduct,
-                    sellingPrice: Number(e.target.value),
+                    sellingPrice: e.target.value,
                   })
                 }
-                placeholder="Selling Price"
               />
 
               <Button
                 onClick={() => {
                   setProducts((prev) =>
                     prev.map((p) =>
-                      p.id === editingProduct.id ? editingProduct : p
+                      p.id === editingProduct.id
+                        ? {
+                            ...p,
+                            mrp: Number(editingProduct.mrp),
+                            sellingPrice: Number(editingProduct.sellingPrice),
+                          }
+                        : p
                     )
                   );
                   setEditingProduct(null);
@@ -279,5 +301,6 @@ export const ProductSection = () => {
     </div>
   );
 };
+
 
 
