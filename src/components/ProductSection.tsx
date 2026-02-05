@@ -46,12 +46,31 @@ export const ProductSection = () => {
   const { toast } = useToast();
 
   const [products, setProducts] = useState<Product[]>([
-    { id: "1", category: "Sound Crackers", name: "Thunder King 1000 Wala", mrp: 300, sellingPrice: 250 },
-    { id: "2", category: "Sparklers", name: "Golden Sparklers Pack", mrp: 150, sellingPrice: 120 },
-    { id: "3", category: "Rockets", name: "Rocket Bombs Deluxe", mrp: 220, sellingPrice: 180 },
+    {
+      id: "1",
+      category: "Sound Crackers",
+      name: "Thunder King 1000 Wala",
+      mrp: 300,
+      sellingPrice: 250,
+    },
+    {
+      id: "2",
+      category: "Sparklers",
+      name: "Golden Sparklers Pack",
+      mrp: 150,
+      sellingPrice: 120,
+    },
+    {
+      id: "3",
+      category: "Rockets",
+      name: "Rocket Bombs Deluxe",
+      mrp: 220,
+      sellingPrice: 180,
+    },
   ]);
 
   const [searchTerm, setSearchTerm] = useState("");
+
   const [editingProduct, setEditingProduct] = useState<{
     id: string;
     category: string;
@@ -109,14 +128,15 @@ export const ProductSection = () => {
 
   return (
     <div className="space-y-6">
-
       {/* TABLE */}
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Package className="h-5 w-5" /> Product Inventory
           </CardTitle>
-          <CardDescription>Supplier manages MRP & Selling Price</CardDescription>
+          <CardDescription>
+            Supplier manages MRP & Selling Price
+          </CardDescription>
         </CardHeader>
 
         <CardContent>
@@ -229,7 +249,9 @@ export const ProductSection = () => {
             placeholder="Selling Price"
             value={form.sellingPrice}
             onFocus={() => setForm({ ...form, sellingPrice: "" })}
-            onChange={(e) => setForm({ ...form, sellingPrice: e.target.value })}
+            onChange={(e) =>
+              setForm({ ...form, sellingPrice: e.target.value })
+            }
           />
 
           <Button onClick={handleUpdate}>
@@ -238,62 +260,99 @@ export const ProductSection = () => {
         </CardContent>
       </Card>
 
-      {/* EDIT DIALOG */}
-      <Dialog open={!!editingProduct} onOpenChange={() => setEditingProduct(null)}>
-        <DialogContent>
+      {/* EDIT DIALOG – OLD STYLE UI */}
+      <Dialog
+        open={!!editingProduct}
+        onOpenChange={() => setEditingProduct(null)}
+      >
+        <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>Edit Product Pricing</DialogTitle>
-            <DialogDescription>{editingProduct?.name}</DialogDescription>
+            <DialogTitle>Edit Product Price</DialogTitle>
+            <DialogDescription>
+              Update the price for <b>{editingProduct?.name}</b>
+            </DialogDescription>
           </DialogHeader>
 
           {editingProduct && (
-            <div className="space-y-3">
-              <Input value={editingProduct.category} disabled />
-              <Input value={editingProduct.name} disabled />
+            <div className="space-y-4">
+              <div>
+                <label className="text-sm font-medium">Product Name</label>
+                <Input value={editingProduct.name} disabled />
+              </div>
 
-              <Input
-                type="number"
-                value={editingProduct.mrp}
-                onFocus={() =>
-                  setEditingProduct({ ...editingProduct, mrp: "" })
-                }
-                onChange={(e) =>
-                  setEditingProduct({ ...editingProduct, mrp: e.target.value })
-                }
-              />
+              <div>
+                <label className="text-sm font-medium">Category</label>
+                <Input value={editingProduct.category} disabled />
+              </div>
 
-              <Input
-                type="number"
-                value={editingProduct.sellingPrice}
-                onFocus={() =>
-                  setEditingProduct({ ...editingProduct, sellingPrice: "" })
-                }
-                onChange={(e) =>
-                  setEditingProduct({
-                    ...editingProduct,
-                    sellingPrice: e.target.value,
-                  })
-                }
-              />
+              <div>
+                <label className="text-sm font-medium">MRP (₹)</label>
+                <Input
+                  type="number"
+                  value={editingProduct.mrp}
+                  onFocus={() =>
+                    setEditingProduct({ ...editingProduct, mrp: "" })
+                  }
+                  onChange={(e) =>
+                    setEditingProduct({
+                      ...editingProduct,
+                      mrp: e.target.value,
+                    })
+                  }
+                />
+              </div>
 
-              <Button
-                onClick={() => {
-                  setProducts((prev) =>
-                    prev.map((p) =>
-                      p.id === editingProduct.id
-                        ? {
-                            ...p,
-                            mrp: Number(editingProduct.mrp),
-                            sellingPrice: Number(editingProduct.sellingPrice),
-                          }
-                        : p
-                    )
-                  );
-                  setEditingProduct(null);
-                }}
-              >
-                Save Changes
-              </Button>
+              <div>
+                <label className="text-sm font-medium">
+                  Selling Price (₹)
+                </label>
+                <Input
+                  type="number"
+                  value={editingProduct.sellingPrice}
+                  onFocus={() =>
+                    setEditingProduct({
+                      ...editingProduct,
+                      sellingPrice: "",
+                    })
+                  }
+                  onChange={(e) =>
+                    setEditingProduct({
+                      ...editingProduct,
+                      sellingPrice: e.target.value,
+                    })
+                  }
+                />
+              </div>
+
+              <div className="flex justify-end gap-2 pt-2">
+                <Button
+                  variant="outline"
+                  onClick={() => setEditingProduct(null)}
+                >
+                  Cancel
+                </Button>
+
+                <Button
+                  onClick={() => {
+                    setProducts((prev) =>
+                      prev.map((p) =>
+                        p.id === editingProduct.id
+                          ? {
+                              ...p,
+                              mrp: Number(editingProduct.mrp),
+                              sellingPrice: Number(
+                                editingProduct.sellingPrice
+                              ),
+                            }
+                          : p
+                      )
+                    );
+                    setEditingProduct(null);
+                  }}
+                >
+                  Update Price
+                </Button>
+              </div>
             </div>
           )}
         </DialogContent>
@@ -301,6 +360,3 @@ export const ProductSection = () => {
     </div>
   );
 };
-
-
-
