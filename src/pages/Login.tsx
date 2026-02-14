@@ -10,7 +10,7 @@ export default function Login() {
 
   const handleLogin = () => {
     // You can add validation here later
-    navigate("/dashboard");
+    navigate("/profile");
   };
 
   return (
