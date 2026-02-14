@@ -14,9 +14,9 @@ export default function Login() {
         {/* LOGO */}
         <div className="flex justify-center mb-6">
           <img
-            src="/logo.png"   // 👈 Put your logo inside public folder
+            src="/crackerscraze.png"   // 👈 Put your logo inside public folder
             alt="Logo"
-            className="h-20 object-contain"
+            className="h-20 object-contain
           />
         </div>
 
