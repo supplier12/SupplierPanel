@@ -27,7 +27,7 @@ export default function Login() {
 
         {/* Subtitle */}
         <p className="text-center text-orange-100 mb-6">
-          Sign in to manage your business
+          Sign in to manage your cracker business
         </p>
 
         {/* Email */}
