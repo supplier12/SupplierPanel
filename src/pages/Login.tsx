@@ -1,10 +1,17 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Eye, EyeOff } from "lucide-react";
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
+
+  const handleLogin = () => {
+    // You can add validation here later
+    navigate("/dashboard");
+  };
 
   return (
     // 🔥 Full Orange Background
@@ -65,7 +72,10 @@ export default function Login() {
         </div>
 
         {/* Sign In Button */}
-        <Button className="w-full h-12 text-lg font-semibold bg-orange-600 text-white hover:bg-orange-700">
+        <Button
+          onClick={handleLogin}
+          className="w-full h-12 text-lg font-semibold bg-orange-600 text-white hover:bg-orange-700"
+        >
           Sign In
         </Button>
 
