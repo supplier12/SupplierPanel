@@ -79,8 +79,8 @@ const Login = () => {
         <CardHeader className="text-center space-y-4">
           <div className="flex justify-center items-center mb-6">
             <img 
-              src="/lovable-uploads/00d439d3-3f7b-4731-b5c6-f647e9b5a006.png" 
-              alt="Crackers Craze Logo" 
+              src="/logo.png"
+              alt="Logo"
               className="h-20 w-20 object-contain"
             />
           </div>
